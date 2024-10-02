@@ -20,20 +20,18 @@
     "url": "https://github.com/cosmology-tech/hyperweb/issues"
   },
   "scripts": {
-    "copy": "copyfiles -f LICENSE README.md package.json dist",
-    "clean": "rimraf dist/**",
-    "prepare": "npm run build",
-    "build": "npm run clean; tsc; tsc -p tsconfig.esm.json; npm run copy",
+    "clean": "rimraf contracts/**",
+    "build": "ts-node scripts/build.ts",
     "test": "jest --verbose --bail",
     "test:debug": "jest --runInBand --verbose --bail",
     "starship": "starship --config configs/local.yaml",
     "starship:ci": "starship --config configs/ci.yaml"
   },
   "devDependencies": {
+    "@types/node": "^22.7.4",
     "@types/jest": "^29.5.11",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
     "@typescript-eslint/parser": "^6.18.1",
-    "copyfiles": "^2.4.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",

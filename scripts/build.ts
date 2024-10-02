@@ -1,11 +1,24 @@
-import { join } from 'path';
 import { InterwebBuild, InterwebBuildOptions } from '@interweb/build';
+import { join } from 'path';
 
 interface BuildConfig {
   entryFile: string;
   outFile: string;
   externalPackages: string[];
 }
+
+const configs: BuildConfig[] = [
+  {
+    entryFile: 'src/contract1/index.ts',
+    outFile: 'contracts/bundle1.js',
+    externalPackages: ['otherpackage', '~somepackage']
+  },
+  {
+    entryFile: 'src/contract2/index.ts',
+    outFile: 'contracts/bundle2.js',
+    externalPackages: ['differentpackage']
+  }
+];
 
 const rootDir = join(__dirname, '/../');
 
@@ -27,21 +40,7 @@ async function buildInterweb(config: BuildConfig): Promise<void> {
   }
 }
 
-// Example usage
 async function main() {
-  const configs: BuildConfig[] = [
-    {
-      entryFile: 'src/contract1/index.ts',
-      outFile: 'contracts/bundle1.js',
-      externalPackages: ['otherpackage', '~somepackage']
-    },
-    {
-      entryFile: 'src/contract2/index.ts',
-      outFile: 'contracts/bundle2.js',
-      externalPackages: ['differentpackage']
-    }
-  ];
-
   for (const config of configs) {
     try {
       await buildInterweb(config);

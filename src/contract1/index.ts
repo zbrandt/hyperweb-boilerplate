@@ -7,13 +7,13 @@ export function reset(state: MyState) {
   state.value = 0;
   return newValue
 }
-export function inc(state: MyState, {x}) {
+export function inc(state: MyState, { x }: { x: number }) {
   const oldValue = state.value ?? 0;
   const newValue = oldValue + x;
   state.value = newValue;
   return newValue
 }
-export function dec(state: MyState, {x}) {
+export function dec(state: MyState, { x }: { x: number }) {
   const oldValue = state.value ?? 0;
   const newValue = oldValue - x;
   state.value = newValue;

@@ -13,7 +13,7 @@
     "url": "https://github.com/cosmology-tech/hyperweb/issues"
   },
   "scripts": {
-    "clean": "rimraf contracts/**",
+    "clean": "rimraf dist/contracts/**",
     "build": "ts-node scripts/build.ts",
     "test": "jest --verbose --bail",
     "test:debug": "jest --runInBand --verbose --bail",

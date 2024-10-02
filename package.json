@@ -5,13 +5,6 @@
   "author": "Anmol Yadav <anmol1696@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/hyperweb#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "index.js",
-  "module": "esm/index.js",
-  "types": "index.d.ts",
-  "publishConfig": {
-    "access": "public",
-    "directory": "dist"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cosmology-tech/hyperweb"

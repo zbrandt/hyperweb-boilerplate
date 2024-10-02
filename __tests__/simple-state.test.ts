@@ -6,7 +6,7 @@ import path from "path";
 import fs from 'fs';
 import { getSigningJsdClient, jsd } from 'jsdjs'
 import { useChain, generateMnemonic } from 'starshipjs';
-import { sleep } from '../src/utils';
+import { sleep } from '../test-utils/sleep';
 import './setup.test';
 
 describe('JSD tests', () => {

@@ -15,7 +15,7 @@ describe('Test clients', () => {
   let client;
 
   beforeAll(async () => {
-    const { getRpcEndpoint } = useChain('jsd');
+    const { getRpcEndpoint } = useChain('hyperweb');
     client = await StargateClient.connect(await getRpcEndpoint());
   });
 

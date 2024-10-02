@@ -28,6 +28,7 @@ jobs:
 
       - name: Set Up Starship Infrastructure
         id: starship-infra
+        timeout-minutes: 10
         uses: cosmology-tech/starship-action@0.5.6
         with:
           config: configs/ci.yaml

@@ -2,15 +2,15 @@ name: starship-devnet
 version: 0.2.14
 
 chains:
-  - id: jsd
+  - id: hyperweb
     name: custom
     numValidators: 1
-    image: ghcr.io/cosmology-tech/jsd:latest@sha256:298d4b464039d8be430588960573f72a1dbdae2181cc562369952ab3ca220806
+    image: ghcr.io/cosmology-tech/jsd:latest
     home: /root/.jsd
     binary: jsdd
-    prefix: cosmos
-    denom: stake
-    coins: 100000000000000stake
+    prefix: hyper
+    denom: uhyper
+    coins: 100000000000000uhyper,100000000000000uweb
     hdPath: m/44'/118'/0'/0/0
     coinType: 118
     repo: https://github.com/cosmology-tech/jsd
@@ -23,10 +23,10 @@ chains:
       type: starship
     ## test accounts, add more accounts as needed
     balances:
-      - address: cosmos1e9ucjn5fjmetky5wezzcsccp7hqcwzrrhthpf5
-        amount: "2000000000000stake"
-      - address: cosmos10eykchznjdn8jdlwaj5v9wvlmdsp6kxx7u0hv9
-        amount: "2000000000000stake"
+      - address: hyper1e9ucjn5fjmetky5wezzcsccp7hqcwzrrhthpf5
+        amount: "2000000000000uhyper"
+      - address: hyper10eykchznjdn8jdlwaj5v9wvlmdsp6kxx7u0hv9
+        amount: "2000000000000uhyper"
 
 registry:
   enabled: true

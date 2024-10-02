@@ -20,7 +20,7 @@ describe('JSD tests', () => {
       getCoin,
       getRpcEndpoint,
       creditFromFaucet
-    } = useChain('jsd'));
+    } = useChain('hyperweb'));
     denom = (await getCoin()).base;
 
     // Initialize wallet

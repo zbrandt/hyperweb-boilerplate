@@ -27,6 +27,11 @@ chains:
       resources:
         cpu: "0.1"
         memory: "100M"
+    balances:
+      - address: cosmos1e9ucjn5fjmetky5wezzcsccp7hqcwzrrhthpf5
+        amount: "2000000000000stake"
+      - address: cosmos10eykchznjdn8jdlwaj5v9wvlmdsp6kxx7u0hv9
+        amount: "2000000000000stake"
 
 registry:
   enabled: true
@@ -35,3 +40,6 @@ registry:
   resources:
     cpu: "0.1"
     memory: "100M"
+
+images:
+  imagePullPolicy: Always

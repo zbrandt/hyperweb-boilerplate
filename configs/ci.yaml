@@ -19,8 +19,8 @@ chains:
       rpc: 26653
       faucet: 8003
     resources:
-      cpu: "0.4"
-      memory: "400M"
+      cpu: "0.3"
+      memory: "300M"
     faucet:
       enabled: true
       type: starship

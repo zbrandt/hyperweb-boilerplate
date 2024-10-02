@@ -52,7 +52,7 @@ describe('JSD tests', () => {
 
   it('instantiate contract', async () => {
     // Read contract code from external file
-    const contractPath = path.join(__dirname, '../contracts/simple-state.js');
+    const contractPath = path.join(__dirname, '../contracts/contract1.js');
     contractCode = fs.readFileSync(contractPath, 'utf8');
 
     const fee = {

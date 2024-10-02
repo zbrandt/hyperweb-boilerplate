@@ -5,7 +5,7 @@ chains:
   - id: jsd
     name: custom
     numValidators: 1
-    image: ghcr.io/cosmology-tech/jsd:latest
+    image: ghcr.io/cosmology-tech/jsd:latest@sha256:298d4b464039d8be430588960573f72a1dbdae2181cc562369952ab3ca220806
     home: /root/.jsd
     binary: jsdd
     prefix: cosmos

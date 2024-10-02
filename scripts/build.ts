@@ -6,12 +6,12 @@ const outputDir = join(root, 'contracts');
 const srcDir = join(root, 'src');
 
 async function main() {
-  const outfile = join(outputDir, 'bundle.js');
+  const outfile = join(outputDir, 'contract1.js');
     
   const options: Partial<InterwebBuildOptions> = {
     entryPoints: [join(srcDir, 'contract1/index.ts')],
     outfile,
-    external: ['otherpackage', '~somepackage']
+    external: ['otherpackage', '~somepackage'],
   };
 
   try {

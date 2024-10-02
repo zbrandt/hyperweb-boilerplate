@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../src/contract1/index.ts"],
-  "sourcesContent": ["interface MyState {\n  value: number;\n}\n\nexport function reset(state: MyState) {\n  const newValue = 0;\n  state.set('value', 0);\n  return newValue\n}\nexport function inc(state: MyState, {x}) {\n  const oldValue = state.get('value') ?? 0;\n  const newValue = oldValue + x;\n  state.set('value', newValue);\n  return newValue\n}\nexport function dec(state: MyState, {x}) {\n  const oldValue = state.get('value') ?? 0;\n  const newValue = oldValue - x;\n  state.set('value', newValue);\n  return newValue\n}\n\nexport function read(state: MyState) {\n  return state.get('value');\n}\n"],
-  "mappings": ";AAIO,SAAS,MAAM,OAAgB;AACpC,QAAM,WAAW;AACjB,QAAM,IAAI,SAAS,CAAC;AACpB,SAAO;AACT;AACO,SAAS,IAAI,OAAgB,EAAC,EAAC,GAAG;AACvC,QAAM,WAAW,MAAM,IAAI,OAAO,KAAK;AACvC,QAAM,WAAW,WAAW;AAC5B,QAAM,IAAI,SAAS,QAAQ;AAC3B,SAAO;AACT;AACO,SAAS,IAAI,OAAgB,EAAC,EAAC,GAAG;AACvC,QAAM,WAAW,MAAM,IAAI,OAAO,KAAK;AACvC,QAAM,WAAW,WAAW;AAC5B,QAAM,IAAI,SAAS,QAAQ;AAC3B,SAAO;AACT;AAEO,SAAS,KAAK,OAAgB;AACnC,SAAO,MAAM,IAAI,OAAO;AAC1B;",
-  "names": []
-}

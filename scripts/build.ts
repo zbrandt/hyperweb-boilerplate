@@ -10,12 +10,12 @@ interface BuildConfig {
 const configs: BuildConfig[] = [
   {
     entryFile: 'src/contract1/index.ts',
-    outFile: 'contracts/bundle1.js',
+    outFile: 'dist/contracts/bundle1.js',
     externalPackages: ['otherpackage', '~somepackage']
   },
   {
     entryFile: 'src/contract2/index.ts',
-    outFile: 'contracts/bundle2.js',
+    outFile: 'dist/contracts/bundle2.js',
     externalPackages: ['differentpackage']
   }
 ];

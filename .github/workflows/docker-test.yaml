@@ -1,0 +1,20 @@
+name: Pull Docker Image
+
+on:
+  push:
+    branches:
+      - main
+      - anmol/test-docker-pull
+
+jobs:
+  docker-pull:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Pull public Docker image
+        run: docker pull ghcr.io/cosmology-tech/jsd:latest

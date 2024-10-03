@@ -52,7 +52,7 @@ describe('JSD tests', () => {
 
   it('instantiate contract', async () => {
     // Read contract code from external file
-    const contractPath = path.join(__dirname, '../contracts/contract1.js');
+    const contractPath = path.join(__dirname, '../dist/contracts/bundle1.js');
     contractCode = fs.readFileSync(contractPath, 'utf8');
 
     const fee = {
@@ -186,6 +186,7 @@ describe('JSD tests', () => {
       creator: address,
       index: contractIndex,
       fnName: "read",
+      arg: "",
     });
 
     const result = await signingClient.signAndBroadcast(address, [msg], fee);

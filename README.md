@@ -1,7 +1,7 @@
 # hyperweb
 
 <p align="center" width="100%">
-    <img height="90" src="https://github.com/user-attachments/assets/e629dddd-d560-45e1-b45c-5d125e3acd6a" />
+    <img height="90" src="https://github.com/user-attachments/assets/f672f9b8-e59a-4f44-8f51-df3e8d2eaae5" />
 </p>
 
 <p align="center" width="100%">

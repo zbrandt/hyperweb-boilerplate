@@ -10,7 +10,7 @@ chains:
     binary: jsdd
     prefix: hyper
     denom: uhyper
-    coins: 100000000000000uhyper,100000000000000uweb
+    coins: 100000000000000uhyper,100000000000000uweb,100000000000000ATOM,100000000000000USDC
     hdPath: m/44'/118'/0'/0/0
     coinType: 118
     repo: https://github.com/cosmology-tech/jsd

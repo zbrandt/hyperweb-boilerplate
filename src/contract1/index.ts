@@ -1,25 +1,26 @@
-interface MyState {
-  value: number;
+export interface State {
+  get(key: string): any;
+  set(key: string, value: any): void;
 }
 
-export function reset(state: MyState) {
+export function reset(state: State) {
   const newValue = 0;
-  state.value = 0;
+  state.set('value', newValue);
   return newValue
 }
-export function inc(state: MyState, { x }: { x: number }) {
-  const oldValue = state.value ?? 0;
+export function inc(state: State, { x }: { x: number }) {
+  const oldValue = state.get('value') ?? 0;
   const newValue = oldValue + x;
-  state.value = newValue;
+  state.set('value', newValue);
   return newValue
 }
-export function dec(state: MyState, { x }: { x: number }) {
-  const oldValue = state.value ?? 0;
+export function dec(state: State, { x }: { x: number }) {
+  const oldValue = state.get('value') ?? 0;
   const newValue = oldValue - x;
-  state.value = newValue;
+  state.set('value', newValue);
   return newValue
 }
 
-export function read(state: MyState) {
-  return state.value;
+export function read(state: State) {
+  return state.get('value');
 }

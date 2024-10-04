@@ -16,7 +16,7 @@ const configs: BuildConfig[] = [
   {
     entryFile: 'src/contract2/index.ts',
     outFile: 'dist/contracts/bundle2.js',
-    externalPackages: ['differentpackage']
+    externalPackages: ['~bank'],
   }
 ];
 

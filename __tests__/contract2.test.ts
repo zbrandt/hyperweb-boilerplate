@@ -14,7 +14,10 @@ describe('JSD tests', () => {
   let chainInfo, getCoin, getRpcEndpoint, creditFromFaucet;
   let contractCode, contractIndex;
 
+  let wallet2, address2;
   let fee;
+
+  const denom2 = "uweb", denomATOM = "ATOM", denomUSDC = "USDC";
 
   beforeAll(async () => {
     ({
@@ -32,6 +35,13 @@ describe('JSD tests', () => {
     address = (await wallet.getAccounts())[0].address;
     console.log(`contract creator address: ${address}`)
 
+    // Initialize wallet2
+    wallet2 = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
+      prefix: chainInfo.chain.bech32_prefix
+    });
+    address2 = (await wallet2.getAccounts())[0].address;
+    console.log(`contract creator address: ${address2}`)
+
     // Create custom cosmos interchain client
     queryClient = await jsd.ClientFactory.createRPCQueryClient({
       rpcEndpoint: await getRpcEndpoint()
@@ -42,10 +52,16 @@ describe('JSD tests', () => {
       signer: wallet
     });
 
-    // set default fee
+    await creditFromFaucet(address, denom);
+    await creditFromFaucet(address, denom2);
+    await creditFromFaucet(address, denomATOM);
+    await creditFromFaucet(address, denomUSDC);
+
+    await creditFromFaucet(address2, denom);
+    await creditFromFaucet(address2, denom2);
+
     fee = {amount: [{denom, amount: '100000'}], gas: '550000'};
 
-    await creditFromFaucet(address);
     await sleep(2000); // sleep for 1 sec to get tokens transferred from faucet successfully
   });
 
@@ -57,7 +73,7 @@ describe('JSD tests', () => {
 
   it('instantiate contract', async () => {
     // Read contract code from external file
-    const contractPath = path.join(__dirname, '../dist/contracts/bundle1.js');
+    const contractPath = path.join(__dirname, '../dist/contracts/bundle2.js');
     contractCode = fs.readFileSync(contractPath, 'utf8');
 
     const msg = jsd.jsd.MessageComposer.fromPartial.instantiate({
@@ -82,72 +98,56 @@ describe('JSD tests', () => {
     expect(response.contracts.creator).toEqual(address);
   });
 
-  it('query state before eval', async () => {
-    const state = await queryClient.jsd.jsd.localState({index: contractIndex, key: "value"});
-    expect(state).toEqual({value: ""});
-  });
-
-  it('perform inc eval', async () => {
+  it('perform getTotalSupply eval', async () => {
     const msg = jsd.jsd.MessageComposer.fromPartial.eval({
       creator: address,
       index: contractIndex,
-      fnName: "inc",
-      arg: `{"x": 10}`,
+      fnName: "getTotalSupply",
+      arg: `{}`,
     });
 
     const result = await signingClient.signAndBroadcast(address, [msg], fee);
     assertIsDeliverTxSuccess(result);
 
     const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
-    expect(response.result).toEqual("10");
+    expect(response.result).toEqual("0");
   });
 
-  it('eval read from eval', async () => {
+  it('perform addLiquidity eval', async () => {
     const msg = jsd.jsd.MessageComposer.fromPartial.eval({
       creator: address,
       index: contractIndex,
-      fnName: "read",
+      fnName: "addLiquidity",
+      arg: `{"amount0":50, "amount1":50}`,
     });
 
     const result = await signingClient.signAndBroadcast(address, [msg], fee);
     assertIsDeliverTxSuccess(result);
 
     const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
-    expect(response.result).toEqual("10");
+    expect(response.result).toEqual("null");
   });
 
-  it('query state after eval', async () => {
-    const state = await queryClient.jsd.jsd.localState({index: contractIndex, key: "value"});
-    expect(state).toEqual({value: "10"});
+  it('check balance after addLiquidity', async () => {
+    const usdcBalance = await signingClient.getBalance(address, "USDC");
+    expect(usdcBalance.amount).toEqual("9999999950");
+
+    const atomBalance = await signingClient.getBalance(address, "ATOM");
+    expect(atomBalance.amount).toEqual("9999999950");
   });
 
-  it('perform dec eval', async () => {
+  it('perform swap eval', async () => {
     const msg = jsd.jsd.MessageComposer.fromPartial.eval({
       creator: address,
       index: contractIndex,
-      fnName: "dec",
-      arg: `{"x": 5}`,
+      fnName: "swap",
+      arg: `{"tokenIn":"USDC","amountIn":10}`,
     });
 
     const result = await signingClient.signAndBroadcast(address, [msg], fee);
     assertIsDeliverTxSuccess(result);
 
     const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
-    expect(response.result).toEqual("5");
-  });
-
-  it('eval read from eval', async () => {
-    const msg = jsd.jsd.MessageComposer.fromPartial.eval({
-      creator: address,
-      index: contractIndex,
-      fnName: "read",
-      arg: "",
-    });
-
-    const result = await signingClient.signAndBroadcast(address, [msg], fee);
-    assertIsDeliverTxSuccess(result);
-
-    const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
-    expect(response.result).toEqual("5");
+    expect(response.result).toEqual("8.312489578122396");
   });
 });

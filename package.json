@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "description": "Hyperweb smart contracts",
   "author": "Hyperweb <developers@hyperweb.io>",
-  "homepage": "https://github.com/cosmology-tech/hyperweb#readme",
+  "homepage": "https://github.com/hyperweb-io/hyperweb#readme",
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/hyperweb"
+    "url": "https://github.com/hyperweb-io/hyperweb"
   },
   "bugs": {
-    "url": "https://github.com/cosmology-tech/hyperweb/issues"
+    "url": "https://github.com/hyperweb-io/hyperweb/issues"
   },
   "scripts": {
     "clean": "rimraf dist/contracts/**",

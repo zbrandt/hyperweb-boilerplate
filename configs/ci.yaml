@@ -5,7 +5,7 @@ chains:
   - id: hyperweb
     name: custom
     numValidators: 1
-    image: ghcr.io/cosmology-tech/jsd:latest
+    image: ghcr.io/cosmology-tech/jsd:0.1.0
     home: /root/.jsd
     binary: jsdd
     prefix: hyper

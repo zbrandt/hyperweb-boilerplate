@@ -5,12 +5,12 @@ chains:
   - id: hyperweb
     name: custom
     numValidators: 1
-    image: ghcr.io/cosmology-tech/jsd:latest
+    image: ghcr.io/cosmology-tech/jsd:0.1.0
     home: /root/.jsd
     binary: jsdd
     prefix: hyper
     denom: uhyper
-    coins: 100000000000000uhyper,100000000000000uweb
+    coins: 100000000000000uhyper,100000000000000uweb,100000000000000ATOM,100000000000000USDC
     hdPath: m/44'/118'/0'/0/0
     coinType: 118
     repo: https://github.com/cosmology-tech/jsd
@@ -21,12 +21,6 @@ chains:
     faucet:
       enabled: true
       type: starship
-    ## test accounts, add more accounts as needed
-    balances:
-      - address: hyper1e9ucjn5fjmetky5wezzcsccp7hqcwzrrhthpf5
-        amount: "2000000000000uhyper"
-      - address: hyper10eykchznjdn8jdlwaj5v9wvlmdsp6kxx7u0hv9
-        amount: "2000000000000uhyper"
 
 registry:
   enabled: true

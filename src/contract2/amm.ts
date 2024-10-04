@@ -2,7 +2,7 @@
 import { getBalance, sendCoins } from '~bank';
 
 import { store } from './sdk';
-import {Msg, StateEntries, State} from './types'
+import { Msg, StateEntries, State } from './types'
 
 const contractStore = store({
   totalSupply: 0,

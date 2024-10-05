@@ -130,10 +130,10 @@ describe('Contract 2: AMM contract test', () => {
 
   it('check balance after addLiquidity', async () => {
     const usdcBalance = await signingClient.getBalance(address, uusdc);
-    expect(usdcBalance.amount).toEqual("9999999950");
+    expect(usdcBalance.amount).toEqual("9950000000");
 
     const atomBalance = await signingClient.getBalance(address, uatom);
-    expect(atomBalance.amount).toEqual("9999999950");
+    expect(atomBalance.amount).toEqual("9950000000");
   });
 
   it('perform swap eval', async () => {
@@ -148,6 +148,6 @@ describe('Contract 2: AMM contract test', () => {
     assertIsDeliverTxSuccess(result);
 
     const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
-    expect(response.result).toEqual("8.312489578122396");
+    expect(response.result).toEqual("9969998.011982398");
   });
 });

@@ -17,7 +17,7 @@ describe('Contract 2: AMM contract test', () => {
   let wallet2, address2;
   let fee;
 
-  const denom2 = "uweb", uatom = "ibc/uatom", uusdc = "ibc/uusdc";
+  const denom2 = "uweb", uatom = "uatom", uusdc = "uusdc";
 
   beforeAll(async () => {
     ({

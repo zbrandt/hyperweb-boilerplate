@@ -27,8 +27,8 @@ export class Contract {
     this.reserves = store.reserves;
   }
 
-  token0: string = "ibc/uusdc"; // ibc denom for usdc
-  token1: string = "ibc/uatom"; // ibc denom for atom
+  token0: string = "uusdc"; // ibc denom for usdc
+  token1: string = "uatom"; // ibc denom for atom
 
   schema = {
     getTotalSupply: {

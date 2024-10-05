@@ -155,9 +155,13 @@ var Contract = class {
     return [amount0, amount1];
   }
 };
+
+// src/contract2/index.ts
+var contract2_default = Contract;
 export {
+  Contract,
+  contract2_default as default,
   store,
   storeEntry
 };
-export default Contract;
 //# sourceMappingURL=bundle2.js.map

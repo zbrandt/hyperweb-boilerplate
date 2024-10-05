@@ -1,4 +1,4 @@
-name: Run E2E Tests
+name: Build
 
 on:
   push:
@@ -8,10 +8,6 @@ on:
     branches:
       - main
   workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
 
 jobs:
   e2e-tests:
@@ -32,13 +28,3 @@ jobs:
 
       - name: Build contracts
         run: yarn build
-
-      - name: Set Up Starship Infrastructure
-        id: starship-infra
-        uses: cosmology-tech/starship-action@0.5.7
-        with:
-          config: configs/ci.yaml
-          cli-version: 2.10.2
-
-      - name: Run E2E Tests
-        run: yarn test

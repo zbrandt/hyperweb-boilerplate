@@ -15,9 +15,9 @@ chains:
     coinType: 118
     repo: https://github.com/cosmology-tech/jsd
     ports:
-      rest: 1313
-      rpc: 26653
-      faucet: 8003
+      rest: 1317
+      rpc: 26657
+      faucet: 8000
     faucet:
       enabled: true
       type: starship

@@ -37,97 +37,65 @@ Welcome to **Hyperweb**, the blockchain for JavaScript smart contracts. Hyperweb
 
 ```bash
 git clone https://github.com/hyperweb-io/hyperweb-boilerplate.git
+
+yarn
 ```
 
 ## Quickstart
 
-### Contract Layout
+### Bundle Contracts
 
-The smart contracts are stored inside the `src/contract1` and `src/contract2` directories. Each contract consists of a set of functions that manipulate the state and interact with the chain.
-
-Example contract (stored in `src/contract1/index.ts`):
-
-```ts
-export interface State {
-  get(key: string): any;
-  set(key: string, value: any): void;
-}
-
-export function reset(state: State) {
-  const newValue = 0;
-  state.set('value', newValue);
-  return newValue;
-}
-
-export function inc(state: State, { x }: { x: number }) {
-  const oldValue = state.get('value') ?? 0;
-  const newValue = oldValue + x;
-  state.set('value', newValue);
-  return newValue;
-}
-
-export function dec(state: State, { x }: { x: number }) {
-  const oldValue = state.get('value') ?? 0;
-  const newValue = oldValue - x;
-  state.set('value', newValue);
-  return newValue;
-}
-
-export function read(state: State) {
-  return state.get('value');
-}
+1. Clean previous builds:
+```bash
+yarn clean
+```
+2. Build contracts:
+```bash
+yarn build
 ```
 
-This contract implements basic state manipulation functions like `inc`, `dec`, and `read`.
+This bundles the contracts from src/** into dist/contracts/.
 
-### Building and Bundling
+### Spin Up Starship
+#### Enable Kubernetes in Docker Desktop
+Docker Desktop includes a standalone Kubernetes server and client, as well as Docker CLI integration that runs on your machine.
+To enable Kubernetes in Docker Desktop:
 
-To bundle and build the smart contract into a deployable format, we use a custom build script. Contracts are bundled into a single JavaScript file using the build configuration.
+1. From the Docker Dashboard, select the Settings.
+2. Select Kubernetes from the left sidebar.
+3. Next to Enable Kubernetes, select the checkbox.
+4. Select Apply & Restart to save the settings and then click Install to confirm.
 
-Example build script (`scripts/build.ts`):
-
-```ts
-import { InterwebBuild } from '@interweb/build';
-import { join } from 'path';
-
-const configs = [
-  {
-    entryFile: 'src/contract1/index.ts',
-    outFile: 'dist/contracts/bundle1.js',
-    externalPackages: ['otherpackage', '~somepackage'],
-  },
-  {
-    entryFile: 'src/contract2/index.ts',
-    outFile: 'dist/contracts/bundle2.js',
-    externalPackages: ['~bank'],
-  }
-];
-
-async function buildContracts() {
-  for (const config of configs) {
-    try {
-      await InterwebBuild.build({
-        entryPoints: [join(__dirname, '..', config.entryFile)],
-        outfile: join(__dirname, '..', config.outFile),
-        external: config.externalPackages
-      });
-      console.log(`Build completed: ${config.outFile}`);
-    } catch (error) {
-      console.error('Build failed:', error);
-    }
-  }
-}
-
-buildContracts();
+#### Install `kubectl` and `helm`. 
+```bash
+yarn starship install  ## and follow steps to install kubectl and helm
 ```
 
-To build the contracts, run:
-
-```sh
-ts-node scripts/build.ts
+#### Start Starship
+```bash
+yarn starship start
 ```
+Spins up a local blockchain using configs/local.yaml.
+Wait for Starship to initialize.
 
-The output will be stored in the `dist/contracts/` directory.
+For more details, refer to the [Starship Docs](https://docs.cosmology.zone/starship/).
+
+#### Interact with Chain
+Once the starship nodes are running, then you can interact with the chain using following endpoints:
+- REST: http://localhost:1317
+- RPC: http://localhost:26657
+- Faucet: http://localhost:8000
+
+### Run Tests
+Run tests:
+```bash
+yarn test
+```
+The test suite deploys the contracts, interacts with them, and validates state transitions. The tests are located in tests/.
+
+---
+
+## Usage
 
 ### Creating JSD Client
 
@@ -175,10 +143,6 @@ async function deployContract(signingClient, address) {
   console.log('Contract deployed:', result);
 }
 ```
-
----
-
-## Usage
 
 ### Instantiating a Contract
 
@@ -249,7 +213,3 @@ console.log('Contract state:', state);
 ## Development
 
 For local development, you can run the tests provided in the `tests/` folder to validate contract functionality using `starshipjs` to simulate chain interactions.
-
----
-
-Let me know if you want any adjustments or additional sections!

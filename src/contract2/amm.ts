@@ -27,8 +27,8 @@ export class Contract {
     this.reserves = store.reserves;
   }
 
-  token0: string = "USDC";
-  token1: string = "ATOM";
+  token0: string = "uusdc"; // ibc denom for usdc
+  token1: string = "uatom"; // ibc denom for atom
 
   schema = {
     getTotalSupply: {
@@ -75,6 +75,7 @@ export class Contract {
     ];
   }
 
+  // swap method adjusted for uusdc and uatom scaling
   swap({tokenIn, amountIn}: {tokenIn: string, amountIn: number}) {
     const isToken0 = tokenIn == this.token0;
     const isToken1 = tokenIn == this.token1;
@@ -91,15 +92,17 @@ export class Contract {
         ? [this.token0, this.token1, reserve0, reserve1]
         : [this.token1, this.token0, reserve1, reserve0];
 
+    // Adjust amountIn to account for scaling (from uusdc/uatom)
+    const adjustedAmountIn = amountIn / 1e6;  // Convert back to full tokens
     sendCoins(this.msg.sender, this.address, {
-      [tokenIn]: amountIn,
+      [tokenIn]: amountIn, // Amount in uusdc/uatom remains unchanged
     });
 
-    const amountInWithFee = amountIn * 997 / 1000;
+    const amountInWithFee = adjustedAmountIn * 997 / 1000;
     const amountOut = (reserveOut * amountInWithFee) / (reserveIn + amountInWithFee);
 
     sendCoins(this.address, this.msg.sender, {
-      [tokenOut]: amountOut,
+      [tokenOut]: amountOut * 1e6,  // Convert output back to uusdc/uatom
     });
 
     this.#update(
@@ -107,31 +110,35 @@ export class Contract {
       this.#getBankBalance(this.address, this.token1).amount,
     );
 
-    return amountOut;
+    return amountOut * 1e6;  // Return result in uusdc/uatom
   }
 
+  // addLiquidity method adjusted for uusdc and uatom scaling
   addLiquidity({amount0, amount1}: {amount0: number, amount1: number}) {
     sendCoins(this.msg.sender, this.address, {
-      [this.token0]: amount0,
-      [this.token1]: amount1,
+      [this.token0]: amount0, // uusdc
+      [this.token1]: amount1, // uatom
     });
 
     const [reserve0, reserve1] = this.reserves.value;
 
     if (reserve0 > 0 || reserve1 > 0) {
-      if (reserve0 * amount1 != reserve1 * amount0) {
+      if (reserve0 * (amount1 / 1e6) != reserve1 * (amount0 / 1e6)) {
         throw Error("invalid liquidity");
       }
     }
 
-    let shares = 0
+    let shares = 0;
+    const adjustedAmount0 = amount0 / 1e6;  // Convert to full tokens
+    const adjustedAmount1 = amount1 / 1e6;  // Convert to full tokens
+
     if (this.totalSupply.value > 0) {
-      shares = Math.sqrt(amount0 * amount1)
+      shares = Math.sqrt(adjustedAmount0 * adjustedAmount1);
     } else {
       shares = Math.min(
-        (amount0 * this.totalSupply.value) / reserve0,
-        (amount1 * this.totalSupply.value) / reserve1,
-      )
+        (adjustedAmount0 * this.totalSupply.value) / reserve0,
+        (adjustedAmount1 * this.totalSupply.value) / reserve1,
+      );
     }
 
     this.#mint(this.msg.sender, shares);
@@ -144,20 +151,24 @@ export class Contract {
     return shares;
   }
 
+  // removeLiquidity method adjusted for uusdc and uatom scaling
   removeLiquidity({shares}: {shares: number}) {
     const bal0 = this.#getBankBalance(this.address, this.token0);
     const bal1 = this.#getBankBalance(this.address, this.token1);
     const totalSupply = this.totalSupply.value;
 
-    const amount0 = bal0 * shares / totalSupply;
-    const amount1 = bal1 * shares / totalSupply;
+    // Adjust output to uusdc/uatom
+    const amount0 = (bal0 * shares / totalSupply) * 1e6;
+    const amount1 = (bal1 * shares / totalSupply) * 1e6;
+
     this.#burn(this.msg.sender, shares);
-    this.#update(bal0 - amount0, bal1 - amount1);
+    this.#update(bal0 - amount0 / 1e6, bal1 - amount1 / 1e6);
+
     sendCoins(this.address, this.msg.sender, {
-      [this.token0]: amount0,
-      [this.token1]: amount1,
+      [this.token0]: amount0,  // uusdc
+      [this.token1]: amount1,  // uatom
     });
 
-    return [amount0, amount1];
+    return [amount0, amount1];  // Return uusdc/uatom
   }
 }

@@ -107,6 +107,7 @@ describe('JSD tests', () => {
       creator: address,
       index: contractIndex,
       fnName: "read",
+      arg: "",
     });
 
     const result = await signingClient.signAndBroadcast(address, [msg], fee);

@@ -15,9 +15,9 @@ chains:
     coinType: 118
     repo: https://github.com/cosmology-tech/jsd
     ports:
-      rest: 1313
-      rpc: 26653
-      faucet: 8003
+      rest: 1317
+      rpc: 26657
+      faucet: 8000
     resources:
       cpu: "0.3"
       memory: "300M"
@@ -27,12 +27,6 @@ chains:
       resources:
         cpu: "0.1"
         memory: "100M"
-    ## test accounts, add more accounts as needed
-    balances:
-      - address: hyper1e9ucjn5fjmetky5wezzcsccp7hqcwzrrhthpf5
-        amount: "2000000000000uhyper"
-      - address: hyper10eykchznjdn8jdlwaj5v9wvlmdsp6kxx7u0hv9
-        amount: "2000000000000uhyper"
 
 registry:
   enabled: true

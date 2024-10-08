@@ -86,6 +86,9 @@ Once the starship nodes are running, then you can interact with the chain using 
 - RPC: http://localhost:26657
 - Faucet: http://localhost:8000
 
+Chain registry is available at http://localhost:8081.
+For chain information, refer to the http://localhost:8081/chains/hyperweb.
+
 ### Run Tests
 Run tests:
 ```bash
@@ -99,12 +102,12 @@ The test suite deploys the contracts, interacts with them, and validates state t
 
 ### Creating JSD Client
 
-Once the contract is bundled, you need to create a client using `jsdjs` to interact with the Hyperweb chain.
+Once the contract is bundled, you need to create a client using `hyperwebjs` to interact with the Hyperweb chain.
 
-Example setup to create a `jsdjs` client:
+Example setup to create a `hyperwebjs` client:
 
 ```ts
-import { getSigningJsdClient, jsd } from 'jsdjs';
+import { getSigningJsdClient, jsd } from 'hyperwebjs';
 
 async function setupClient() {
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic("your-mnemonic");
@@ -121,7 +124,7 @@ async function setupClient() {
 
 ### Deploying and Interacting with the Contract
 
-To deploy and instantiate the contract on the Hyperweb blockchain, read the bundled contract file and use the `jsdjs` client to broadcast it to the chain.
+To deploy and instantiate the contract on the Hyperweb blockchain, read the bundled contract file and use the `hyperwebjs` client to broadcast it to the chain.
 
 Example deployment process:
 
@@ -146,7 +149,7 @@ async function deployContract(signingClient, address) {
 
 ### Instantiating a Contract
 
-To instantiate the contract, use the `instantiate` method of the `jsdjs` client. The contract index will be returned, which is used to interact with the contract.
+To instantiate the contract, use the `instantiate` method of the `hyperwebjs` client. The contract index will be returned, which is used to interact with the contract.
 
 ```ts
 const contractCode = fs.readFileSync('dist/contracts/bundle1.js', 'utf8');

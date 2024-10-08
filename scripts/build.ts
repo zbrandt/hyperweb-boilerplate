@@ -1,4 +1,4 @@
-import { InterwebBuild, InterwebBuildOptions } from '@interweb/build';
+import { InterwebBuild, InterwebBuildOptions } from '@hyperweb/build';
 import { join } from 'path';
 
 interface BuildConfig {

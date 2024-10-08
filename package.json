@@ -21,7 +21,7 @@
     "starship:ci": "starship --config configs/ci.yaml"
   },
   "devDependencies": {
-    "@interweb/build": "^0.0.5",
+    "@hyperweb/build": "^0.0.2",
     "@starship-ci/cli": "^2.10.1",
     "@types/jest": "^29.5.11",
     "@types/node": "^22.7.4",

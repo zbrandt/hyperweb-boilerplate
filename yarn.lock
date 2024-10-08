@@ -1553,10 +1553,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@interweb/build@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@interweb/build/-/build-0.0.5.tgz#91fc19f87137257e8c49c7586d53ffdac9e811b8"
-  integrity sha512-drm00cnpAhdPskmvFtP/EFw+my9jtVmDt2ry6FLmSlhybjT8dk+MEfgyCGRhk+U6iOMBJdfB8zkiLeGXgDB1zg==
+"@hyperweb/build@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@hyperweb/build/-/build-0.0.2.tgz#b673bafd800a0d6d2df138484f3bfae008643748"
+  integrity sha512-38L9vlwQBlCMHbTWsxrm7RxkJQB5b/CLS6IBac16fiT//VxRlsshpVVmru+nqCEee3za2n4QxVZPJaL3Gqtd9A==
   dependencies:
     esbuild "^0.23.1"
 

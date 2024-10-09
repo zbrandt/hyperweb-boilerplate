@@ -4,7 +4,7 @@ import { assertIsDeliverTxSuccess } from '@cosmjs/stargate';
 
 import path from "path";
 import fs from 'fs';
-import { getSigningJsdClient, jsd } from 'jsdjs'
+import { getSigningJsdClient, jsd } from 'hyperwebjs'
 import { useChain, generateMnemonic } from 'starshipjs';
 import { sleep } from '../test-utils/sleep';
 import './setup.test';

@@ -1,5 +1,5 @@
 export interface State {
-  get(key: string): any;
+  get(key: string): string;
   set(key: string, value: any): void;
 }
 

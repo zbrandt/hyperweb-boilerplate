@@ -17,7 +17,7 @@ describe('Contract 2: AMM contract test', () => {
   let wallet2, address2;
   let fee;
 
-  const denom2 = "uweb", uatom = "uatom", uusdc = "uusdc";
+  const denom2 = "uhypweb", uatom = "uatom", uusdc = "uusdc";
 
   beforeAll(async () => {
     ({
@@ -33,14 +33,14 @@ describe('Contract 2: AMM contract test', () => {
       prefix: chainInfo.chain.bech32_prefix
     });
     address = (await wallet.getAccounts())[0].address;
-    console.log(`contract creator address: ${address}`)
+    console.log(`contract creator address for amm: ${address}`)
 
     // Initialize wallet2
     wallet2 = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
       prefix: chainInfo.chain.bech32_prefix
     });
     address2 = (await wallet2.getAccounts())[0].address;
-    console.log(`contract creator address: ${address2}`)
+    console.log(`contract creator address2 for amm: ${address2}`)
 
     // Create custom cosmos interchain client
     queryClient = await jsd.ClientFactory.createRPCQueryClient({

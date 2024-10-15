@@ -41,4 +41,4 @@ jobs:
           cli-version: 2.10.2
 
       - name: Run E2E Tests
-        run: yarn test
+        run: yarn test --runInBand

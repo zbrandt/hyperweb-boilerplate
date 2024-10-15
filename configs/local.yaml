@@ -11,6 +11,7 @@ chains:
       rest: 1317
       rpc: 26657
       faucet: 8000
+      exposer: 8001
     faucet:
       enabled: true
       type: starship

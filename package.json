@@ -17,6 +17,10 @@
     "build": "ts-node scripts/build.ts",
     "test": "jest --verbose --bail",
     "test:debug": "jest --runInBand --verbose --bail",
+    "docker": "npm run docker:stop && npm run docker:run",
+    "docker:run": "docker run -d --name jsd-plus -p 26657:26657 -p 1317:1317 -p 8000:8000 -p 8001:8001 -p 8081:8081 ghcr.io/cosmology-tech/jsd-plus:0.1.1",
+    "docker:exec": "docker exec -it jsd-plus /bin/bash",
+    "docker:stop": "docker stop jsd-plus || true && docker rm jsd-plus || true",
     "starship": "starship --config configs/local.yaml",
     "starship:ci": "starship --config configs/ci.yaml"
   },

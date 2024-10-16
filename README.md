@@ -20,15 +20,24 @@ Welcome to **Hyperweb**, the blockchain for JavaScript smart contracts. Hyperweb
 ## Table of Contents
 
 - [Quickstart](#quickstart)
-    - [Contract Layout](#contract-layout)
-    - [Building and Bundling](#building-and-bundling)
-    - [Creating JSD Client](#creating-jsd-client)
-    - [Deploying and Interacting with the Contract](#deploying-and-interacting-with-the-contract)
+  - [Bundle Contracts](#bundle-contracts)
+- [Infrastructure Setup](#infrastructure-setup)
+  - [Option 1: Using Starship](#option-1-using-starship)
+    - [Enable Kubernetes in Docker Desktop](#enable-kubernetes-in-docker-desktop)
+    - [Install `kubectl` and `helm`](#install-kubectl-and-helm)
+    - [Start Starship](#start-starship)
+    - [Interact with the Chain](#interact-with-the-chain)
+  - [Option 2: Using Docker](#option-2-using-docker)
+    - [Run Hyperweb with Docker](#run-hyperweb-with-docker)
+    - [Interact with Chain](#interact-with-chain)
+- [Run Tests](#run-tests)
 - [Usage](#usage)
-    - [Instantiating a Contract](#instantiating-a-contract)
-    - [Interacting with the Contract](#interacting-with-the-contract)
-    - [Evaluating Functions on the Contract](#evaluating-functions-on-the-contract)
-    - [Reading Contract State](#reading-contract-state)
+  - [Creating JSD Client](#creating-jsd-client)
+  - [Deploying and Interacting with the Contract](#deploying-and-interacting-with-the-contract)
+  - [Instantiating a Contract](#instantiating-a-contract)
+  - [Interacting with the Contract](#interacting-with-the-contract)
+  - [Evaluating Functions on the Contract](#evaluating-functions-on-the-contract)
+  - [Reading Contract State](#reading-contract-state)
 - [Development](#development)
 
 ## Installation
@@ -56,7 +65,11 @@ yarn build
 
 This bundles the contracts from src/** into dist/contracts/.
 
-### Spin Up Starship
+## Infrastructure Setup
+
+### Option 1: Using Starship
+[Starship](https://github.com/cosmology-tech/starship) is a Kubernetes-based blockchain orchestrator. It sets up a local blockchain environment with full cross-chain compatibility.
+
 #### Enable Kubernetes in Docker Desktop
 Docker Desktop includes a standalone Kubernetes server and client, as well as Docker CLI integration that runs on your machine.
 To enable Kubernetes in Docker Desktop:
@@ -80,18 +93,40 @@ Wait for Starship to initialize.
 
 For more details, refer to the [Starship Docs](https://docs.cosmology.zone/starship/).
 
-#### Interact with Chain
-Once the starship nodes are running, then you can interact with the chain using following endpoints:
-- REST: http://localhost:1317
-- RPC: http://localhost:26657
-- Faucet: http://localhost:8000
+### Option 2: Using Docker
+Alternatively, Hyperweb can be run using Docker, which simplifies setup and enables you to interact with the blockchain without requiring Kubernetes.
 
-### Run Tests
+#### Run Hyperweb with Docker
+To spin up the chain using Docker, the following scripts are available in the package.json:
+
+* Run Docker container:
+  ```bash
+  yarn docker
+  ```
+
+* Stop and remove the container:
+  ```bash
+  yarn docker:stop
+  ```
+
+### Interact with chain
+
+This will set up the same chain environment that Starship provides, allowing you to interact with the chain using the same endpoints:
+* REST: http://localhost:1317
+* RPC: http://localhost:26657
+* Faucet: http://localhost:8000
+* Exposer: http://localhost:8081
+* Registry: http://localhost:8001
+
+Once the chain is running, you can follow the same steps to interact with the chain and run tests as detailed below.
+
+## Run Tests
+Once the setup it complete, you can run tests to validate the contract functionality.
 Run tests:
 ```bash
 yarn test
 ```
-The test suite deploys the contracts, interacts with them, and validates state transitions. The tests are located in tests/.
+The test suite deploys the contracts, interacts with them, and validates state transitions. The tests are located in `__tests__/`.
 
 ---
 
@@ -212,4 +247,4 @@ console.log('Contract state:', state);
 
 ## Development
 
-For local development, you can run the tests provided in the `tests/` folder to validate contract functionality using `starshipjs` to simulate chain interactions.
+For local development, you can run the tests provided in the `__tests__/` folder to validate contract functionality using `starshipjs` to simulate chain interactions.

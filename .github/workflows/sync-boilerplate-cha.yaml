@@ -82,7 +82,7 @@ jobs:
         run: |
           cd ../create-hyperweb-app
           git add .
-          git restore --staged templates/hyperweb/CHANGELOG.md
+          git restore --staged templates/hyperweb/CHANGELOG.md templates/hyperweb/.github/workflows/sync-boilerplate-cha.yaml
           if ! git diff-index --quiet HEAD; then
             SHORT_HASH="${{ steps.git_hash.outputs.git_hash }}"
             NEW_BRANCH="sync/hyperweb-boilerplate-update-${SHORT_HASH}-$(date +%Y%m%d%H%M)"

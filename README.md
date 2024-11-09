@@ -50,6 +50,15 @@ git clone https://github.com/hyperweb-io/hyperweb-boilerplate.git
 yarn
 ```
 
+## Repository overview
+
+* `src/`: Contains source code for each contract, with each sub-directory as a separate contract.
+  * `simple-state`: A simple contract to demonstrate state transitions.
+  * `amm-contract`: An automated market maker contract using the Bank module.
+* `scripts/`: Holds the build script to create contract bundles.
+* `__tests__/`: Includes test cases to validate contract functionality.
+* `dist/`: Output folder for bundled contracts ready for deployment.
+
 ## Quickstart
 
 ### Bundle Contracts

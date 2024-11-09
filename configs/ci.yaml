@@ -13,14 +13,14 @@ chains:
       faucet: 8000
       exposer: 8001
     resources:
-      cpu: "0.5"
-      memory: "500M"
+      cpu: "0.4"
+      memory: "400M"
     faucet:
       enabled: true
       type: starship
       resources:
-        cpu: "0.1"
-        memory: "100M"
+        cpu: "0.2"
+        memory: "200M"
 
 registry:
   enabled: true

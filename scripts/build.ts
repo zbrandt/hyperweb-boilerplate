@@ -17,6 +17,11 @@ const configs: BuildConfig[] = [
     entryFile: 'src/amm-contract/index.ts',
     outFile: 'dist/contracts/ammContract.js',
     externalPackages: ['~bank'],
+  },
+  {
+    entryFile: 'src/escrow-contract/index.ts',
+    outFile: 'dist/contracts/escrowContract.js',
+    externalPackages: ['~bank'],
   }
 ];
 

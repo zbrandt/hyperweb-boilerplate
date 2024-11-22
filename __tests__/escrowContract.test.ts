@@ -171,4 +171,44 @@ describe("Contract 3: Escrow contract test", () => {
         const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result3.msgResponses[0]);
         expect(response.result).toEqual("0");
     });
+
+    it('cancel funds from escrow', async () => {
+        const msg1 = jsd.jsd.MessageComposer.fromPartial.eval({
+            creator: address,
+            index: contractIndex,
+            fnName: "deposit",
+            arg: `{"amount":1000, "buyer":"${buyerAddress}"}`
+        });
+    
+        const result1 = await signingClient.signAndBroadcast(address, [msg1], fee);
+        assertIsDeliverTxSuccess(result1);
+        
+        const msg2 = jsd.jsd.MessageComposer.fromPartial.eval({
+            creator: address,
+            index: contractIndex,
+            fnName: "cancel",
+            arg: `{"tokenIn":"${uusdc}"}`
+        });
+        
+        if (msg2 === undefined) {
+            throw new Error("msg2 is undefined");
+        }
+        const result2 = await signingClient.signAndBroadcast(address, [msg2], fee);
+        console.log(result2);
+        assertIsDeliverTxSuccess(result2);
+
+        // Check if the escrow has the funds
+        const msg3 = jsd.jsd.MessageComposer.fromPartial.eval({
+            creator: address,
+            index: contractIndex,
+            fnName: "getDeposited",
+            arg: `{}`,
+        });
+
+        const result3 = await signingClient.signAndBroadcast(address, [msg3], fee);
+        assertIsDeliverTxSuccess(result3);
+
+        const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result3.msgResponses[0]);
+        expect(response.result).toEqual("0");
+    });
 });

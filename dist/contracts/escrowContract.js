@@ -62,6 +62,14 @@ var Contract = class {
     this.setBuyer(buyer2);
   }
   release(tokenIn, seller2) {
+    if (this.amount() === 0) {
+      throw Error("escrow has no funds");
+    }
+    const buyer2 = this.buyer();
+    if (buyer2 === "" || seller2 === "") {
+      throw Error("missing buyer, seller, or agent");
+    }
+    sendCoins(this.address, seller2, { [tokenIn]: this.amount() });
     this.setAmount(0);
     this.setSeller("");
     this.setAgent("");

@@ -59,7 +59,7 @@ export class Contract {
         this.setAgent('');
     }
 
-    cancel() {
+    cancel(tokenIn: string) {
         if (this.amount() === 0) {
             throw Error("escrow has no funds");
         }
@@ -68,7 +68,7 @@ export class Contract {
         if (buyer === '' || agent === '') {
             throw Error("missing buyer or agent");
         }
-        sendCoins(agent, buyer, this.amount());
+        sendCoins(this.address, buyer, {[tokenIn]: this.amount()});
         this.setAmount(0);
         this.setBuyer('');
         this.setSeller('');

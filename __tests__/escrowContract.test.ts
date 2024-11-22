@@ -18,6 +18,8 @@ describe("Contract 3: Escrow contract test", () => {
     let sellerWallet, sellerAddress;
     let fee;
 
+    const uusdc = "uusdc";
+
     beforeAll(async () => {
         ({ chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } =
         useChain("hyperweb"));
@@ -107,7 +109,7 @@ describe("Contract 3: Escrow contract test", () => {
             creator: address,
             index: contractIndex,
             fnName: "deposit",
-            arg: `{"amount":1000}`
+            arg: `{"amount":1000, "buyer":"${buyerAddress}"}`
         });
     
         const result = await signingClient.signAndBroadcast(address, [msg], fee);
@@ -117,7 +119,7 @@ describe("Contract 3: Escrow contract test", () => {
         const msg2 = jsd.jsd.MessageComposer.fromPartial.eval({
             creator: address,
             index: contractIndex,
-            fnName: "getAmount",
+            fnName: "getDeposited",
             arg: `{}`,
         });
 
@@ -125,7 +127,48 @@ describe("Contract 3: Escrow contract test", () => {
         assertIsDeliverTxSuccess(result2);
 
         const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result2.msgResponses[0]);
-        expect(response.result).toEqual("{\"amount\":1000}");
+        console.log(response.result);
+        expect(response.result).toEqual(`{\"amount\":1000,\"buyer\":\"${buyerAddress}\"}`);
     });
 
+
+    it('release funds from escrow', async () => {
+        const msg1 = jsd.jsd.MessageComposer.fromPartial.eval({
+            creator: address,
+            index: contractIndex,
+            fnName: "deposit",
+            arg: `{"amount":1000, "buyer":"${buyerAddress}"}`
+        });
+    
+        const result1 = await signingClient.signAndBroadcast(address, [msg1], fee);
+        assertIsDeliverTxSuccess(result1);
+        
+        const msg2 = jsd.jsd.MessageComposer.fromPartial.eval({
+            creator: address,
+            index: contractIndex,
+            fnName: "release",
+            arg: `{"tokenIn":"${uusdc}","seller":"${sellerAddress}"}`
+        });
+        
+        if (msg2 === undefined) {
+            throw new Error("msg2 is undefined");
+        }
+        const result2 = await signingClient.signAndBroadcast(address, [msg2], fee);
+        console.log(result2);
+        assertIsDeliverTxSuccess(result2);
+
+        // Check if the escrow has the funds
+        const msg3 = jsd.jsd.MessageComposer.fromPartial.eval({
+            creator: address,
+            index: contractIndex,
+            fnName: "getDeposited",
+            arg: `{}`,
+        });
+
+        const result3 = await signingClient.signAndBroadcast(address, [msg3], fee);
+        assertIsDeliverTxSuccess(result3);
+
+        const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result3.msgResponses[0]);
+        expect(response.result).toEqual("0");
+    });
 });

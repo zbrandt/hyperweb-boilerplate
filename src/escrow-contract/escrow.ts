@@ -31,31 +31,30 @@ export class Contract {
         [this.agent, this.setAgent] = agent(state);
     }
 
-    // token: string = "uusdc"; // ibc denom for usdc
+    token: string = "uusdc"; // ibc denom for usdc
 
-    deposit(amount: number) {
-        if (this.amount() !== 0) {
-        throw Error("escrow already has funds");
-        }
+    deposit(amount: number, buyer: string) {
+        // if (this.amount() !== 0) {
+        //     throw Error("escrow already has funds");
+        // }
         if (amount <= 0) {
         throw Error("invalid amount");
         }
         this.setAmount(amount);
-        // this.setBuyer(buyer);
+        this.setBuyer(buyer);
     }
 
-    release(seller: string) {
+    release(tokenIn: string, seller: string) {
         if (this.amount() === 0) {
             throw Error("escrow has no funds");
         }
         const buyer = this.buyer();
-        const agent = this.agent();
-        if (buyer === '' || seller === '' || agent === '') {
-        throw Error("missing buyer, seller, or agent");
+        if (buyer === '' || seller === '') {
+            throw Error("missing buyer, seller, or agent");
         }
-        sendCoins(agent, seller, this.amount());
+        sendCoins(this.address, seller, {[tokenIn]: this.amount()});
         this.setAmount(0);
-        this.setBuyer('');
+        // this.setBuyer('');
         this.setSeller('');
         this.setAgent('');
     }
@@ -76,7 +75,7 @@ export class Contract {
         this.setAgent('');
     }
 
-    getAmount(): number {
+    getDeposited(): number {
         return this.amount();
     }
 

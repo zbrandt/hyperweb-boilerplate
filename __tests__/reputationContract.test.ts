@@ -137,6 +137,36 @@ describe('JSD tests', () => {
     assertIsDeliverTxSuccess(result);
 
     const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
-    expect(JSON.parse(response.result)).toEqual({score: 500, registered: true});
+    expect(JSON.parse(response.result)).toEqual({address: userAddress, score: 500, registered: true});
+  });
+
+  it('evaluate user', async () => {
+    const msg = jsd.jsd.MessageComposer.fromPartial.eval({
+      creator: address,
+      index: contractIndex,
+      fnName: "evaluateUser",
+      arg: JSON.stringify({address: userAddress, change: 100}),
+    });
+
+    const result = await signingClient.signAndBroadcast(address, [msg], fee);
+    assertIsDeliverTxSuccess(result);
+
+    const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
+    expect(JSON.parse(response.result)).toEqual({address: userAddress, score: 600, registered: true});
+  });
+
+  it('adjust score', async () => {
+    const msg = jsd.jsd.MessageComposer.fromPartial.eval({
+      creator: address,
+      index: contractIndex,
+      fnName: "adjustScore",
+      arg: JSON.stringify({address: userAddress, score: 700}),
+    });
+
+    const result = await signingClient.signAndBroadcast(address, [msg], fee);
+    assertIsDeliverTxSuccess(result);
+
+    const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
+    expect(JSON.parse(response.result)).toEqual({address: userAddress, score: 700, registered: true});
   });
 });

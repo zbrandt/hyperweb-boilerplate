@@ -30,6 +30,7 @@ function useMapping(keys, defaultValue) {
 // src/reputation-contract/reputation.ts
 var admin = useStore("admin", "");
 var users = useMapping(["address"], {
+  address: "",
   score: 0,
   registered: false
 });
@@ -58,12 +59,32 @@ var Contract = class {
       throw Error("user already registered");
     }
     const newUser = {
+      address,
       score: 500,
       // initial credit score
       registered: true
     };
     this.setUsers(address, newUser);
     return address;
+  }
+  adjustScore({ address, score }) {
+    if (!this.users(address).registered) {
+      throw Error("user not registered");
+    }
+    this.setUsers(address, { address, score, registered: true });
+    return this.users(address);
+  }
+  evaluateUser({ address, change }) {
+    if (!this.users(address).registered) {
+      throw Error("user not registered");
+    }
+    const user = this.users(address);
+    const newScore = user.score + change;
+    if (newScore < 0) {
+      throw Error("score cannot be negative");
+    }
+    this.setUsers(address, { address, score: newScore, registered: true });
+    return this.users(address);
   }
 };
 

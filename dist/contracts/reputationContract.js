@@ -29,19 +29,41 @@ function useMapping(keys, defaultValue) {
 
 // src/reputation-contract/reputation.ts
 var admin = useStore("admin", "");
+var users = useMapping(["address"], {
+  score: 0,
+  registered: false
+});
 var Contract = class {
   msg;
   address;
   admin;
   setAdmin;
+  users;
+  setUsers;
   constructor(state, { msg, address }) {
     this.msg = msg;
     this.address = address;
     [this.admin, this.setAdmin] = admin(state);
+    [this.users, this.setUsers] = users(state);
     this.setAdmin(msg.sender);
   }
   getAdmin() {
     return this.admin();
+  }
+  getUser(address) {
+    return this.users(address);
+  }
+  registerUser({ address }) {
+    if (this.users(address).registered) {
+      throw Error("user already registered");
+    }
+    const newUser = {
+      score: 500,
+      // initial credit score
+      registered: true
+    };
+    this.setUsers(address, newUser);
+    return address;
   }
 };
 

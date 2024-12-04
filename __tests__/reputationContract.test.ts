@@ -14,6 +14,7 @@ describe('JSD tests', () => {
   let chainInfo, getCoin, getRpcEndpoint, creditFromFaucet;
   let contractCode, contractIndex;
 
+  let userWallet, userAddress, userSigningClient;
   let fee;
 
   beforeAll(async () => {
@@ -32,6 +33,12 @@ describe('JSD tests', () => {
     address = (await wallet.getAccounts())[0].address;
     console.log(`contract creator address: ${address}`)
 
+    userWallet = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
+        prefix: chainInfo.chain.bech32_prefix
+    });
+    userAddress = (await userWallet.getAccounts())[0].address;
+    console.log(`user address: ${userAddress}`)
+
     // Create custom cosmos interchain client
     queryClient = await jsd.ClientFactory.createRPCQueryClient({
       rpcEndpoint: await getRpcEndpoint()
@@ -40,6 +47,11 @@ describe('JSD tests', () => {
     signingClient = await getSigningJsdClient({
       rpcEndpoint: await getRpcEndpoint(),
       signer: wallet
+    });
+
+    userSigningClient = await getSigningJsdClient({
+        rpcEndpoint: await getRpcEndpoint(),
+        signer: userWallet
     });
 
     // set default fee
@@ -96,5 +108,35 @@ describe('JSD tests', () => {
 
     const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
     expect(JSON.parse(response.result)).toEqual(address);
+  });
+
+  it('register user', async () => {
+    const msg = jsd.jsd.MessageComposer.fromPartial.eval({
+      creator: address,
+      index: contractIndex,
+      fnName: "registerUser",
+      arg: JSON.stringify({address: userAddress}),
+    });
+
+    const result = await signingClient.signAndBroadcast(address, [msg], fee);
+    assertIsDeliverTxSuccess(result);
+
+    const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
+    expect(JSON.parse(response.result)).toEqual(userAddress);
+  });
+
+  it('query user', async () => {
+    const msg = jsd.jsd.MessageComposer.fromPartial.eval({
+      creator: address,
+      index: contractIndex,
+      fnName: "getUser",
+      arg: JSON.stringify({address: userAddress}),
+    });
+
+    const result = await signingClient.signAndBroadcast(address, [msg], fee);
+    assertIsDeliverTxSuccess(result);
+
+    const response = jsd.jsd.MsgEvalResponse.fromProtoMsg(result.msgResponses[0]);
+    expect(JSON.parse(response.result)).toEqual({score: 500, registered: true});
   });
 });

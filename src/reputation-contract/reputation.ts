@@ -52,7 +52,12 @@ export class Contract {
         return address;
     }
 
+    // should be restricted to admin, but no way to check sender
     adjustScore({address, score}: {address: string, score: number}): User {
+        // throw Error(`this.msg.sender: ${this.msg.sender}, this.admin(): ${this.admin()}`);
+        if (this.msg.sender !== this.admin()) {
+            throw Error("only admin can adjust score");
+        }
         if (!this.users(address).registered) {
             throw Error("user not registered");
         }
@@ -60,12 +65,14 @@ export class Contract {
         return this.users(address);
     }
 
+    // should be restricted to users with sufficient credit score, but no way to check sender
     evaluateUser({address, change}: {address: string, change: number}): User {
-        if (!this.users(address).registered) {
+        if (!this.users(this.msg.sender).registered) {
             throw Error("user not registered");
         }
         const user = this.users(address);
-        const newScore = user.score + change;
+        const weight = this.users(this.msg.sender).score / 500;
+        const newScore = user.score + (change * weight);
         if (newScore < 0) {
             throw Error("score cannot be negative");
         }
